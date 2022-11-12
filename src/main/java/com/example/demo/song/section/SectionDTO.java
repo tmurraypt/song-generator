@@ -1,4 +1,4 @@
-package com.example.demo.song;
+package com.example.demo.song.section;
 
 import com.example.demo.song.chord.ChordDTO;
 import lombok.Getter;

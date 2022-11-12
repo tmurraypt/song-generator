@@ -1,7 +1,8 @@
 package com.example.demo.song;
 
 
-import javax.validation.constraints.NotBlank;
+import com.example.demo.song.section.SectionDTO;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -9,13 +10,12 @@ import java.util.UUID;
 
 public class SongDTO
 {
+
     private UUID id;
-    @NotBlank
     private String title;
     private String artist;
     private String key;
     private int bpm;
-
     private List<SectionDTO> progression = new ArrayList<>();
 
     public UUID getId()

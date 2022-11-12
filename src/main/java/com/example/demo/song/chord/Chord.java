@@ -21,6 +21,17 @@ public class Chord
     @ManyToMany(mappedBy = "chordList")
     private List<Section> sections;
 
+    public Chord(){
+
+    }
+
+    public Chord(ChordDTO chordDto){
+        setChordNumber(chordDto.getChordNumber());
+        setChordQuality(chordDto.getChordQuality());
+        setChordExtension(chordDto.getChordExtension());
+        setAdditionalInfo(chordDto.getAdditionalInfo());
+    }
+
     public UUID getId()
     {
         return id;

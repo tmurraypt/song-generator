@@ -1,7 +1,6 @@
 package com.example.demo.song;
 
 import com.example.demo.song.section.Section;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Map;
@@ -9,7 +8,6 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "song")
-@NoArgsConstructor
 public class Song
 {
 
@@ -25,6 +23,10 @@ public class Song
             inverseJoinColumns = {@JoinColumn(name = "section_id", referencedColumnName = "id")})
     @MapKeyColumn(name = "chordList")
     private Map<Character, Section> progression;
+
+    public Song(){
+
+    }
 
     public Song(SongDTO songDto){
         setArtist(songDto.getArtist());
