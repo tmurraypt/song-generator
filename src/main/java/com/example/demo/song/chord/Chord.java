@@ -2,10 +2,7 @@ package com.example.demo.song.chord;
 
 import com.example.demo.song.section.Section;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,7 +15,8 @@ public class Chord
     private ChordQuality chordQuality;
     private int chordExtension;
     private String additionalInfo;
-    @ManyToMany(mappedBy = "chordList")
+    @ManyToMany(mappedBy = "chordList",
+    cascade = CascadeType.ALL)
     private List<Section> sections;
 
     public Chord(){

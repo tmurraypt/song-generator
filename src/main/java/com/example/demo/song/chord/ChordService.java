@@ -2,6 +2,7 @@ package com.example.demo.song.chord;
 
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,6 +24,7 @@ public class ChordService
 //        }
 //    }
 
+    @Transactional
     public Chord createChord(ChordDTO chordDto){
 //        validateDTO(chordDto);
         var chord = new Chord(chordDto);
@@ -37,25 +39,20 @@ public class ChordService
         return chordRepository.findById(id);
     }
 
+    @Transactional
     public void deleteChordById(UUID id){
         chordRepository.deleteById(id);
     }
 
-    public Optional<Chord> updateChord(ChordDTO chordDto, UUID id)
+    @Transactional
+    public Chord updateChord(ChordDTO chordDto, UUID id)
     {
-        return chordRepository.findById(id)
-                .map(chord -> {
-                    chord.setChordNumber(chordDto.getChordNumber());
-                    chord.setChordQuality(chordDto.getChordQuality());
-                    chord.setChordExtension(chordDto.getChordExtension());
-                    chord.setAdditionalInfo(chordDto.getAdditionalInfo());
-//                    song.setProgression(songDto.getProgression());
-                    return chordRepository.save(chord);
-                });
-//                .orElseGet(() -> {
-//                    songDto.setId(id);
-//                    return songRepository.save(songDto);
-//                });
+        if(!chordRepository.existsById(id))
+        {
+            throw new IllegalArgumentException("Chord does not exist");
+        }
+
+        return chordRepository.save(new Chord(chordDto));
 
 
     }

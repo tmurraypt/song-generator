@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("api/demo/song")
 @Validated
+@CrossOrigin(origins = "http://localhost:3000")
 public class SongController
 {
     private final static Logger logger = LogManager.getLogger(SongController.class);
@@ -47,9 +47,20 @@ public class SongController
     }
 
     @GetMapping("/{id}")
-    public Optional<Song> getSongById(@PathVariable UUID id)
+    public ResponseEntity<?> getSongById(@PathVariable UUID id)
     {
-        return songService.getSongById(id);
+        try
+        {
+            return ResponseEntity.ok().body(songService.getSongById(id));
+        }
+        catch(IllegalArgumentException ex)
+        {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+        catch(Exception ex)
+        {
+            return ResponseEntity.internalServerError().body(ex.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -59,8 +70,19 @@ public class SongController
     }
 
     @PutMapping("/{id}")
-    public Optional<Song> updateSong(@RequestBody SongDTO song, @PathVariable UUID id)
+    public ResponseEntity<?> updateSong(@RequestBody SongDTO song, @PathVariable UUID id)
     {
-        return songService.updateSong(song, id);
+        try
+        {
+            return ResponseEntity.ok().body(songService.updateSong(song, id));
+        }
+        catch(IllegalArgumentException ex)
+        {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+        catch(Exception ex)
+        {
+            return ResponseEntity.internalServerError().body(ex.getMessage());
+        }
     }
 }

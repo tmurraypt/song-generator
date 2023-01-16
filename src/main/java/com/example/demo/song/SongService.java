@@ -2,6 +2,7 @@ package com.example.demo.song;
 
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,6 +24,7 @@ public class SongService
         }
     }
 
+    @Transactional
     public Song createSong(SongDTO songDto){
         validateDTO(songDto);
         var song = new Song(songDto);
@@ -34,29 +36,27 @@ public class SongService
     }
 
     public Optional<Song> getSongById(UUID id){
+
+        if(!songRepository.existsById(id)){
+            throw new IllegalArgumentException("Song does not exist");
+        }
         return songRepository.findById(id);
     }
 
+    @Transactional
     public void deleteSongById(UUID id){
+        if(!songRepository.existsById(id)){
+            throw new IllegalArgumentException("Song does not exist");
+        }
         songRepository.deleteById(id);
     }
 
-    public Optional<Song> updateSong(SongDTO songDto, UUID id)
+    @Transactional
+    public Song updateSong(SongDTO songDto, UUID id)
     {
-        return songRepository.findById(id)
-                .map(song -> {
-                    song.setTitle(songDto.getTitle());
-                    song.setArtist(songDto.getArtist());
-                    song.setKey(songDto.getKey());
-                    song.setBpm(songDto.getBpm());
-//                    song.setProgression(songDto.getProgression());
-                    return songRepository.save(song);
-                });
-//                .orElseGet(() -> {
-//                    songDto.setId(id);
-//                    return songRepository.save(songDto);
-//                });
-
-
+        if(!songRepository.existsById(id)){
+            throw new IllegalArgumentException("Song does not exist");
+        }
+        return songRepository.save(new Song(songDto));
     }
 }

@@ -1,10 +1,12 @@
 package com.example.demo.song;
 
 import com.example.demo.song.section.Section;
+import com.example.demo.song.section.SectionDTO;
 
 import javax.persistence.*;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "song")
@@ -18,11 +20,7 @@ public class Song
     private int bpm;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "progression_mapping",
-            joinColumns = {@JoinColumn(name = "song_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "section_id", referencedColumnName = "id")})
-    @MapKeyColumn(name = "chordList")
-    private Map<Character, Section> progression;
+    private List<Section> progression;
 
     public Song(){
 
@@ -32,11 +30,14 @@ public class Song
         setArtist(songDto.getArtist());
         setBpm(songDto.getBpm());
         setKey(songDto.getKey());
-//        setProgression(songDto.getProgression());
+        setProgression(sectionDtoToSection(songDto.getProgression()));
         setId(songDto.getId());
         setTitle(songDto.getTitle());
     }
 
+    public List<Section> sectionDtoToSection(List<SectionDTO> sectionDTOS){
+        return sectionDTOS.stream().map(Section::new).collect(Collectors.toList());
+    }
 
 
 
@@ -98,12 +99,12 @@ public class Song
         this.bpm = bpm;
     }
 
-    public Map<Character, Section> getProgression()
+    public List<Section> getProgression()
     {
         return progression;
     }
 
-    public void setProgression(Map<Character, Section> progression)
+    public void setProgression(List<Section> progression)
     {
         this.progression = progression;
     }

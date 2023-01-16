@@ -1,4 +1,4 @@
-package com.example.demo.song.chord;
+package com.example.demo.song.section;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,23 +11,24 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/demo/song/chord")
+@RequestMapping("api/demo/song/section")
 @Validated
-public class ChordController
+public class SectionController
 {
-    private final static Logger logger = LogManager.getLogger(ChordController.class);
-    private final ChordService chordService;
+    private final static Logger logger = LogManager.getLogger(SectionController.class);
+    private final SectionService sectionService;
 
-    public ChordController(ChordService chordService)
+    public SectionController(SectionService sectionService)
     {
-        this.chordService = chordService;
+        this.sectionService = sectionService;
     }
 
+
     @PostMapping
-    public ResponseEntity<?> createChord(@Valid @RequestBody ChordDTO chord){
+    public ResponseEntity<?> createSection(@Valid @RequestBody SectionDTO section){
         try
         {
-            return ResponseEntity.ok().body(chordService.createChord(chord));
+            return ResponseEntity.ok().body(sectionService.createSection(section));
         }
         catch(IllegalArgumentException ex)
         {
@@ -40,17 +41,17 @@ public class ChordController
     }
 
     @GetMapping
-    public List<Chord> getAllChords()
+    public List<Section> getAllSections()
     {
-        return chordService.getAllChords();
+        return sectionService.getAllSections();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getChordById(@PathVariable UUID id)
+    public ResponseEntity<?> getSectionById(@PathVariable UUID id)
     {
         try
         {
-            return ResponseEntity.ok().body(chordService.getChordById(id));
+            return ResponseEntity.ok().body(sectionService.getSectionById(id));
         }
         catch(IllegalArgumentException ex)
         {
@@ -63,17 +64,17 @@ public class ChordController
     }
 
     @DeleteMapping("/{id}")
-    public void deleteChordById(@PathVariable UUID id)
+    public void deleteSectionById(@PathVariable UUID id)
     {
-        chordService.deleteChordById(id);
+        sectionService.deleteSectionById(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateChord(@RequestBody ChordDTO chord, @PathVariable UUID id)
+    public ResponseEntity<?> updateSection(@RequestBody SectionDTO section, @PathVariable UUID id)
     {
         try
         {
-            return ResponseEntity.ok().body(chordService.updateChord(chord, id));
+            return ResponseEntity.ok().body(sectionService.updateSection(section, id));
         }
         catch(IllegalArgumentException ex)
         {

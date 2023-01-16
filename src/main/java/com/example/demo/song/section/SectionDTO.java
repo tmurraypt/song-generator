@@ -1,15 +1,34 @@
 package com.example.demo.song.section;
 
 import com.example.demo.song.chord.ChordDTO;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
+
 public class SectionDTO
 {
-    private Character key;
+    private Character sectionLetter;
     private List<ChordDTO> chordList;
+
+
+
+    public Character getSectionLetter()
+    {
+        return sectionLetter;
+    }
+
+    public void setSectionLetter(Character sectionLetter)
+    {
+        this.sectionLetter = sectionLetter;
+    }
+
+    public List<ChordDTO> getChordList()
+    {
+        return chordList;
+    }
+
+    public void setChordList(List<ChordDTO> chordList)
+    {
+        this.chordList = chordList;
+    }
 }
